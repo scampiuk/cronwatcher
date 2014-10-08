@@ -7,7 +7,7 @@
 
 class cronwatcherClient {
 
-    var $_endpoint   = "http://54.171.45.52/api.php";
+    var $_endpoint   = "http://YOURDEPLOYMENTAURI/api.php";
     var $_useCurl = true; // Use curl by default.
     var $cronId = null;
     var $siteId = null;
