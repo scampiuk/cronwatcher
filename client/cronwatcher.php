@@ -7,7 +7,7 @@
 
 class cronwatcherClient {
 
-    var $_endpoint   = "http://blah.com/api.php";
+    var $_endpoint   = "http://54.171.45.52/api.php";
     var $_useCurl = true; // Use curl by default.
     var $cronId = null;
     var $siteId = null;
@@ -39,7 +39,7 @@ class cronwatcherClient {
      * Ends the cronwatch timer
      * @return bool
      */
-    function end(){
+    function stop(){
         $this->status = "C";
         return $this->talk();
     }
