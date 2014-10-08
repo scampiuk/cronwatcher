@@ -22,6 +22,8 @@ class cronwatcherClient {
      */
     function __construct($siteId, $cronId){
         $this->identifier = md5(rand(0,10000) + time() + $siteId + $cronId); // Generate the unique identifier for this call.
+        $this->siteId = $siteId;
+        $this->cronId = $cronId;
     }
 
     /**
@@ -56,7 +58,7 @@ class cronwatcherClient {
             curl_exec($ch);
             return true;
         } catch (Exception $e){
-            $this->_error = $;
+            $this->_error = $e;
             return false;
         }
     }
