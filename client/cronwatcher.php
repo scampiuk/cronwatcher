@@ -7,7 +7,7 @@
 
 class cronwatcherClient {
 
-    var $_endpoint   = "http://YOURDEPLOYMENTAURI/api.php";
+    var $_endpoint   = "http://YOURURI/api.php";
     var $_useCurl = true; // Use curl by default.
     var $cronId = null;
     var $siteId = null;
@@ -32,7 +32,11 @@ class cronwatcherClient {
      */
     function start(){
         $this->status = "S";
-        return $this->talk();
+        if($this->talk()){
+            return $this->identifier;
+        } else {
+            return false;
+        }
     }
 
     /**
