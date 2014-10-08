@@ -10,7 +10,6 @@
  *
  */
 
-echo "<pre>";
 require_once("inc/logHelper.php");
 $logHelper =new logHelper();
 // Have we been passed the required details?
@@ -30,5 +29,4 @@ if(!$siteId || !$cronId || !$status || !$identifier){
 require_once("inc/watcher.php");
 $watcher = new watcher();
 
-echo "<br /> Trying  $siteId, $cronId, $identifier, $noteString, $status";
 $watcher->log($siteId, $cronId, $identifier, $notes,$status);

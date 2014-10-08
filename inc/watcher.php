@@ -31,7 +31,6 @@ class watcher {
      */
     function log($siteId, $cronId, $identifier, $noteString, $status){
 
-        echo "<br /> Trying  $siteId, $cronId, $identifier, $noteString, $status";
         // Does the Site exist and does the cron exist?
         if($this->load($siteId,$cronId)){
             // Store it.
@@ -41,10 +40,6 @@ class watcher {
 
             // If the status is 'N' or 'S' , then we're creating an new record, else we're trying to update
             // and existing one.
-
-
-
-
 
 
             if(strtoupper($status)=='N' || strtoupper($status)=='S') {
@@ -59,13 +54,10 @@ class watcher {
                     )),
                     'ReturnConsumedCapacity' => 'TOTAL'
                 );
-                print_r($itemArray);
 
                 $result = $client->putItem($itemArray);
                 $this->_logHelper->info("Cron job added",$siteId, $cronId, $noteString, $status);
             } else {
-
-
                 // then we're updating the existing record with the siteId|cronId and identifier
                 $itemArray = array(
                     "TableName" => "cronwatcher-job",
@@ -81,26 +73,10 @@ class watcher {
 
                 );
 
-                print_r($itemArray);
                 $result = $client->updateItem($itemArray);
-                echo "<pre>";
-                print_r($result);
-
-
-
-
             }
-
-//            print_r($client);
-
         } else {
-
-
             $this->_logHelper->error("Failed to find the site/cron combo provided", $siteId, $cronId, $noteString, $status);
         }
-
     }
-
-
-
-} 
+}
