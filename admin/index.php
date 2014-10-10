@@ -44,7 +44,7 @@ Use Aws\DynamoDb\DynamoDbClient;
 
 
 ?>
-<!DOCTYPE html>DD
+<!DOCTYPE html>
 <html lang="en">
 <body>
     <head>
