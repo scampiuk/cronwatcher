@@ -7,7 +7,7 @@
 
 class cronwatcherClient {
 
-    var $_endpoint   = "http://YOURURI/api.php";
+    var $_endpoint   = "http://REPLACEWITHTHEENDPOINT/api.php";
     var $_useCurl = true; // Use curl by default.
     var $cronId = null;
     var $siteId = null;
