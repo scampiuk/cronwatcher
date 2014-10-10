@@ -29,13 +29,24 @@ Use Aws\DynamoDb\DynamoDbClient;
         // Make the scan request
 
         $iterator = new  \Aws\DynamoDb\Iterator\ItemIterator($client->getIterator('Scan', array(
-            "TableName"         => "cronwatcher-job"
+            "TableName"         => "cronwatcher-job",
+            'ScanFilter'        => array(
+                "SiteId" => array(
+                    'AttributeValueList'    => array(
+                        array('S'=>(int)$SiteId)
+                    ),
+                    'ComparisonOperator' => 'EQ'
+                )
+            )
         )));
 
         $newIterator = array();
         // Handle the simple fact that DynamoDB doesn't return the results in any particular order.
         foreach($iterator AS $row){
-            $newIterator[strtotime($row->get('created'))] = $row;
+            list($rowSiteId, $rowCronId) = explode("|", $row->get('SiteIdAndCronId'));
+            if($rowSiteId==$SiteId) {
+                $newIterator[strtotime($row->get('created'))] = $row;
+            }
         }
 
         krsort($newIterator);
@@ -83,6 +94,7 @@ Use Aws\DynamoDb\DynamoDbClient;
                         <th>Status</th>
                         <th>Started</th>
                         <th>Completed</th>
+                        <th>Duration<br />HH:MM:SS</th>
                         <th>Identifier</th>
                     </tr>
                 </thead>
@@ -90,6 +102,16 @@ Use Aws\DynamoDb\DynamoDbClient;
                 <?php foreach($newIterator AS $row){
                     list($rowSiteId, $rowCronId) = explode("|", $row->get('SiteIdAndCronId'));
                     if($rowSiteId == $SiteId){
+
+                        $start = strtotime($row->get('created'));
+                        $end = strtotime($row->get('completed'));
+                        if($row->get('completed')){
+                            $duration = $end - $start; // - $end;
+                                $duration = gmdate("H:i:s", $duration);
+                        } else {
+                            $duration = " n/a ";
+                        }
+
                     ?>
                     <tr>
                         <td><?php echo $rowSiteId;?></td>
@@ -97,6 +119,7 @@ Use Aws\DynamoDb\DynamoDbClient;
                         <td><?php echo $statusNameArray[$row->get('status')];?></td>
                         <td><?php echo $row->get('created');?></td>
                         <td><?php echo $row->get('completed');?></td>
+                        <td><?php echo $duration; ?></td>
                         <td><?php echo $row->get('identifier');?></td>
                     </tr>
                 <?php } }?>
