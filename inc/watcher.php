@@ -48,6 +48,8 @@ class watcher {
                     "TableName" => "cronwatcher-job",
                     "Item" => $client->formatAttributes(array(
                         "SiteIdAndCronId" => $siteId . "|" . $cronId,
+                        "SiteId"    => $siteId,
+                        "CronId"    => $cronId,
                         "identifier" => $identifier,
                         "created" => date("r"),
                         "status" => strtoupper($status)
