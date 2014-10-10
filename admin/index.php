@@ -25,8 +25,7 @@ Use Aws\DynamoDb\DynamoDbClient;
         // Then we need to list the records from DynamoDB. Scan based on the SiteId.
 
         // Load the DynamoDB client
-        $client = DynamoDbClient::factory(array('region'=>'eu-west-1'));
-
+        $client = DynamoDbClient::factory(array('region'=>'eu-west-1', 'profile'=>'default'));
         // Make the scan request
 
         $iterator = new  \Aws\DynamoDb\Iterator\ItemIterator($client->getIterator('Scan', array(
